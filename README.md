@@ -19,11 +19,11 @@ yarn add @jeanlazarou/react-time-range
 ```jsx
 import React, { useState } from 'react'
 
-import {TimeRange} from '@jeanlazarou/react-time-range'
+import { TimeRange, TimeRangeBeforeNow } from "@jeanlazarou/react-time-range";
 
 import '@jeanlazarou/react-time-range/dist/index.css'
 
-function Example {
+function Example() {
   const [range, setRange] = useState({
     from: -9,
     to: -7
@@ -54,6 +54,10 @@ function Example {
   )
 }
 ```
+
+## Development notes
+
+The component was build and deployed using [create-react-library](https://github.com/transitive-bullshit/create-react-library), following next article [How to publish a custom React component to NPM using Create React Library](https://dev.to/ramonak/how-to-publish-a-custom-react-component-to-npm-using-create-react-library-4bhi).
 
 ## License
 
