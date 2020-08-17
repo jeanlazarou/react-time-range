@@ -1,0 +1,32 @@
+.rtr-timeline {
+  stroke: #393333;
+}
+.rtr-ticks {
+  stroke: #696c71;
+}
+.rtr-at-text {
+  fill: #095255;
+  font: 11px sans-serif;
+}
+.rtr-range-text {
+  fill: #095255;
+  font: 11px sans-serif;
+}
+.rtr-range {
+  fill: #6d6c7d63;
+}
+.rtr-range-draggable {
+  cursor: grab;
+}
+.rtr-range-draggable:active {
+  cursor: grabbing;
+}
+.rtr-position-handle,
+.rtr-range-resize {
+  stroke: #0000;
+  fill: #1e2c33;
+}
+.rtr-range-resize {
+  stroke-width: 4;
+  cursor: col-resize;
+}
