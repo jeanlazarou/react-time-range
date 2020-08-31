@@ -1,6 +1,36 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+
+function Timeline({ x1, x2, onClick }) {
+  return (
+    <React.Fragment>
+      <line
+        x1={x1}
+        y1='30'
+        x2={x2}
+        y2='30'
+        onClick={onClick}
+        className='rtr-timeline'
+      />
+      <line
+        x1={x1}
+        y1='29'
+        x2={x2}
+        y2='29'
+        onClick={onClick}
+        className='rtr-timeline-hidden'
+      />
+      <line
+        x1={x1}
+        y1='31'
+        x2={x2}
+        y2='31'
+        onClick={onClick}
+        className='rtr-timeline-hidden'
+      />
+    </React.Fragment>
+  )
+}
 
 function PositionHandle({ x, y = 45, fixed, children, onMouseDown }) {
   const styleClass = 'rtr-position-handle' + (fixed ? '' : ' rtr-range-resize')
@@ -208,7 +238,6 @@ TimeRangeBeforeNow.propTypes = {
   style: PropTypes.object
 }
 
-let count = 0
 function useTimeRange({
   behaviorCreator,
   children,
@@ -296,6 +325,10 @@ function useTimeRange({
     mouseUpHandler(state, setters, notifyChange)
   }
 
+  const timelineClick = (ev) => {
+    mouseTimelineClick(ev, state, setters, notifyChange)
+  }
+
   return (
     <svg
       ref={(node) => setSVG(node)}
@@ -304,7 +337,6 @@ function useTimeRange({
       onMouseLeave={mouseUp}
       onMouseUp={mouseUp}
     >
-      <line x1={ORIGIN} y1='30' x2={maxX} y2='30' className='rtr-timeline' />
       <RangeHandle
         x={startX}
         width={endX - startX}
@@ -354,6 +386,15 @@ function useTimeRange({
           every={ticksFrequency}
         />
       ) : null}
+
+      <Timeline
+        x1={ORIGIN}
+        y1='30'
+        x2={maxX}
+        y2='30'
+        className='rtr-timeline'
+        onClick={timelineClick}
+      />
     </svg>
   )
 }
@@ -453,6 +494,39 @@ function mouseUpHandler(state, setters, notifyChange) {
 
   setDrag(undefined)
   setMoved(undefined)
+}
+
+function mouseTimelineClick(ev, state, setters, notifyChange) {
+  const { setStartX, setEndX } = setters
+  const { svg, step, startX, endX, timespan, maxX } = state
+
+  const newRange = { startX, endX }
+
+  const parentX = svg.getBoundingClientRect().x
+
+  const newX = ev.clientX - parentX
+
+  const x = ORIGIN + Math.round((newX - ORIGIN) / step) * step
+
+  if (x < startX) {
+    setStartX(x)
+    newRange.startX = x
+  } else if (x > endX) {
+    setEndX(x)
+    newRange.endX = x
+  } else {
+    const middle = startX + (endX - startX) / 2
+
+    if (x < middle) {
+      setStartX(x)
+      newRange.startX = x
+    } else {
+      setEndX(x)
+      newRange.endX = x
+    }
+  }
+
+  notifyChange(newRange.startX - ORIGIN, newRange.endX - ORIGIN, maxX, timespan)
 }
 
 const TimeRange = {}

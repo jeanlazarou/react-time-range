@@ -1,5 +1,10 @@
 .rtr-timeline {
   stroke: #393333;
+  cursor: pointer;
+}
+.rtr-timeline-hidden {
+  stroke: #fff0;
+  cursor: pointer;
 }
 .rtr-ticks {
   stroke: #696c71;
