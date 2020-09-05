@@ -46,8 +46,8 @@ function Example() {
     >
       <TimeRange.Now>Now</TimeRange.Now>
       <TimeRange.Size>{humanizeHours(range.from, range.to)}</TimeRange.Size>
-      <TimeRange.Start>{\`\${range.from}h\`}</TimeRange.Start>
-      <TimeRange.End>{\`\${range.to}h\`}</TimeRange.End>
+      <TimeRange.Start>{`${range.from}h`}</TimeRange.Start>
+      <TimeRange.End>{`${range.to}h`}</TimeRange.End>
 
       <TimeRange.Ticks every={1} />
     </TimeRangeBeforeNow>
